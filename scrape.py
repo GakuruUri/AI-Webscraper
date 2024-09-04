@@ -1,22 +1,75 @@
-import selenium.webdriver as webdriver
-from selenium.webdriver.chrome.service import Service
-import time
+# Bright data
+from selenium.webdriver import Remote, ChromeOptions
+from selenium.webdriver.chromium.remote_connection import ChromiumRemoteConnection
+
+SBR_WEBDRIVER = 'https://brd-customer-hl_ec70fb6c-zone-ai_webscraper:2yb853a2c0dn@brd.superproxy.io:9515'
+
+
+# import selenium.webdriver as webdriver
+# from selenium.webdriver.chrome.service import Service
+# import time
 
 def scrape_website(website):
     print("Launching chrome browser...")
 
-    chrome_driver_path = "./chromedriver"
-    options = webdriver.ChromeOptions()
-    driver = webdriver.Chrome(service=Service(chrome_driver_path), options=options)
-
-
-    try:
+    # Bright Data Source
+    sbr_connection = ChromiumRemoteConnection(SBR_WEBDRIVER, 'goog', 'chrome')
+    with Remote(sbr_connection, options=ChromeOptions()) as driver:
+        # print('Connected! Navigating to https://example.com...')
         driver.get(website)
-        print("Page loaded...")
+        # CAPTCHA handling: If you're expecting a CAPTCHA on the target page, use the following code snippet to check the status of Scraping Browser's automatic CAPTCHA solver
+        print('Waiting captcha to solve...')
+        solve_res = driver.execute('executeCdpCommand', {
+            'cmd': 'Captcha.waitForSolve',
+            'params': {'detectTimeout': 10000},
+        })
+        print('Captcha solve status:', solve_res['value']['status'])
+        print('Navigated! Scraping page content...')
         html = driver.page_source
-        time.sleep(10)
-
-
         return html
-    finally:
-        driver.quit()
+
+
+
+
+
+    # chrome_driver_path = "./chromedriver"
+    # options = webdriver.ChromeOptions()
+    # driver = webdriver.Chrome(service=Service(chrome_driver_path), options=options)
+
+
+    # try:
+    #     driver.get(website)
+    #     print("Page loaded...")
+    #     html = driver.page_source
+    #     time.sleep(10)
+
+
+    #     return html
+    # finally:
+    #     driver.quit()
+
+
+
+
+
+
+# def main():
+#     print('Connecting to Scraping Browser...')
+#     sbr_connection = ChromiumRemoteConnection(SBR_WEBDRIVER, 'goog', 'chrome')
+#     with Remote(sbr_connection, options=ChromeOptions()) as driver:
+#         print('Connected! Navigating to https://example.com...')
+#         driver.get('https://example.com')
+#         # CAPTCHA handling: If you're expecting a CAPTCHA on the target page, use the following code snippet to check the status of Scraping Browser's automatic CAPTCHA solver
+#         print('Waiting captcha to solve...')
+#         solve_res = driver.execute('executeCdpCommand', {
+#             'cmd': 'Captcha.waitForSolve',
+#             'params': {'detectTimeout': 10000},
+#         })
+#         print('Captcha solve status:', solve_res['value']['status'])
+#         print('Navigated! Scraping page content...')
+#         html = driver.page_source
+#         print(html)
+
+
+# if __name__ == '__main__':
+#     main()

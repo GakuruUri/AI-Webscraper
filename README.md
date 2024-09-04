@@ -1,13 +1,15 @@
-## webscrapper_ai
+## AI Webscraper.
 
 
---python3 -m venv ai
+-- python3 -m venv ai
 
---code requirements.txt
---code main.py
+-- code requirements.txt
+-- code main.py
 
---source ai/bin/activate
---pip3 install -r requirements.txt
---streamlit run main.py
+-- source ai/bin/activate
+-- pip3 install -r requirements.txt
+-- streamlit run main.py
 
---code scrape.py# AI-Webscraper
+-- code scrape.py
+
+# AI-Webscraper
