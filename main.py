@@ -1,5 +1,8 @@
 import streamlit as st
-from scrape import scrape_website
+from scrape import (
+    scrape_website,
+    etra
+)
 
 st.title("AI Web Scraper")
 url = st.text_input("Enter Website URL: ")
